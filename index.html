@@ -570,6 +570,7 @@
             display: flex;
             gap: 10px;
             margin-top: 16px;
+            flex-wrap: wrap;
         }
         .project-card .actions a {
             font-size: 0.7rem;
@@ -1311,14 +1312,13 @@
                 Have a project in mind? Let's talk.
             </p>
 
-            <!-- ===== NEW: Developer Info Card (Name + Email) ===== -->
+            <!-- Developer Info Card (Name + Email) -->
             <div class="developer-info">
                 <div class="info-row">
                     <span style="font-size: 1.4rem;">👤</span>
                     <div>
                         <div class="label-text">Name</div>
                         <div class="value">
-                            <!-- 🔁 Replace with your full name -->
                             Samarth Upadhyay
                         </div>
                     </div>
@@ -1328,8 +1328,7 @@
                     <div>
                         <div class="label-text">Email</div>
                         <div class="value">
-                            <!-- 🔁 Replace with your email address -->
-                            <a href="mailto:you@example.com">codisamoff@gmail.com</a>
+                            <a href="mailto:codisamoff@gmail.com">codisamoff@gmail.com</a>
                         </div>
                     </div>
                 </div>
@@ -1354,13 +1353,12 @@
                 </p>
             </div>
 
-            <!-- Social links – updated with Instagram instead of YouTube -->
+            <!-- Social links -->
             <div class="social-links">
-                <!-- 🔁 Replace # with your actual profile URLs -->
-                <a href="https://github.com/codisamoff" target="_blank">GitHub</a>
-                <a href="https://www.linkedin.com/in/codi-sam-7923a442a/" target="_blank">LinkedIn</a>
-                <a href="https://x.com/codisamoff" target="_blank">Twitter</a>
-                <a href="https://www.instagram.com/codi_samarth?igsh=NW9vazlqdXJqbm1j" target="_blank">Instagram</a>
+                <a href="https://github.com/codisamoff" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://www.linkedin.com/in/codi-sam-7923a442a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://x.com/codisamoff" target="_blank" rel="noopener noreferrer">Twitter</a>
+                <a href="https://www.instagram.com/codi_samarth?igsh=NW9vazlqdXJqbm1j" target="_blank" rel="noopener noreferrer">Instagram</a>
             </div>
         </section>
 
@@ -1414,6 +1412,7 @@
             { name: 'Problem Solving', cat: 'Engineering', icon: '🧩' },
         ];
 
+        // ─── UPDATED: Projects Data with Padh Le ───
         const projectsData = [{
             title: 'Codi',
             desc: 'Personal AI assistant and automation system. Controls smart home, automates tasks, and learns from interactions.',
@@ -1439,6 +1438,12 @@
             desc: 'Currently developing — 3D interfaces, advanced AI agents, and next-gen automation systems.',
             tags: ['3D', 'AI', 'R&D'],
             links: { github: '#', demo: '#' }
+        }, {
+            // ===== NEW: Padh Le =====
+            title: 'Padh Le · Smart Study Monitor',
+            desc: 'Real-time AI-powered study monitoring system that uses computer vision to detect student presence, closed eyes, and mobile phone usage while providing intelligent audio warnings.',
+            tags: ['Python', 'OpenCV', 'MediaPipe', 'YOLO', 'Computer Vision', 'AI', 'Real-Time Detection'],
+            links: { github: 'https://github.com/codisamoff/padh-le', demo: null }
         }, ];
 
         // ─── RENDER SKILLS ───
@@ -1454,19 +1459,27 @@
             skillsGrid.appendChild(el);
         });
 
-        // ─── RENDER PROJECTS ───
+        // ─── RENDER PROJECTS (with conditional demo link) ───
         const projectsGrid = document.getElementById('projectsGrid');
         projectsData.forEach(p => {
             const el = document.createElement('div');
             el.className = 'project-card';
+
+            let actionsHtml = '';
+            // GitHub link (always present)
+            if (p.links.github) {
+                actionsHtml += `<a href="${p.links.github}" target="_blank" rel="noopener noreferrer">GitHub</a>`;
+            }
+            // Demo link only if it exists and is not null/empty/#placeholder
+            if (p.links.demo && p.links.demo !== '#' && p.links.demo !== '' && p.links.demo !== null) {
+                actionsHtml += `<a href="${p.links.demo}" target="_blank" rel="noopener noreferrer">Live Demo</a>`;
+            }
+
             el.innerHTML = `
             <div class="title">${p.title}</div>
             <div class="desc">${p.desc}</div>
             <div class="tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>
-            <div class="actions">
-              <a href="${p.links.github}" target="_blank">GitHub</a>
-              <a href="${p.links.demo}" target="_blank">Live Demo</a>
-            </div>
+            <div class="actions">${actionsHtml}</div>
           `;
             projectsGrid.appendChild(el);
         });
@@ -1503,7 +1516,7 @@
                         'Python · JavaScript · C · HTML · CSS · Web Dev · App Dev · Frontend · Backend · API Dev · Automation · AI Dev · Prompt Eng · Software Eng · Mech Concepts · System Design';
                     break;
                 case 'projects':
-                    response = 'Codi (AI assistant) · Web Projects · Applications · AI Experiments · Future Projects';
+                    response = 'Codi (AI assistant) · Web Projects · Applications · AI Experiments · Future Projects · Padh Le (Smart Study Monitor)';
                     break;
                 case 'codi':
                     response = 'My personal AI assistant. Built to automate tasks, control smart home, and learn from interactions. ⚡';
@@ -1827,11 +1840,11 @@
             } else {
                 setTimeout(() => {
                     loader.classList.add('hide');
-    // Force the page to start at the top (home)
-                     window.scrollTo(0, 0);
-    // Remove any hash from URL to prevent auto-scroll
-                     if (window.location.hash) {
-                     history.replaceState(null, null, ' ');
+                    // Force the page to start at the top (home)
+                    window.scrollTo(0, 0);
+                    // Remove any hash from URL to prevent auto-scroll
+                    if (window.location.hash) {
+                        history.replaceState(null, null, ' ');
                     }
                 }, 400);
             }
